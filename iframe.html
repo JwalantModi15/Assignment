@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+
+    <div style="text-align: center;">
+        <iframe id="iframe" style = "border-color: red;" src="login.html" width="300" height="560">
+
+        </iframe>
+
+        <br><br>
+        <p id="result" style="font-size: 20px;"></p>
+
+    </div>
+
+    <script>
+
+    function emailValidation(email) {
+        let res = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        return res.test(email);
+      }
+        var para = document.getElementById('result')
+        var validatePhoneNo = /^\d{10}$/;
+
+        window.addEventListener('message', function(e){
+            const jsonData = e.data
+            const data = JSON.parse(jsonData)
+
+            var name = data.name
+            var email = data.email
+            var phone_no = data.phone
+            var country = data.country
+            var state = data.state
+
+            if(name.length<4 || name.length>10){
+                const jsonObj = JSON.stringify({name: {
+                    error: "length should be between 4-10",
+                }});
+                para.textContent = "Result: "+jsonObj
+            }
+            else if(!phone_no.match(validatePhoneNo)){
+                const jsonObj = JSON.stringify({phone_no: {
+                    error: "phone number should be of length 10",
+                }});
+                para.textContent = "Result: "+jsonObj
+            }
+            else if(country==""){
+                const jsonObj = JSON.stringify({country: {
+                    error: "country field should not be empty",
+                }});
+                para.textContent = "Result: "+jsonObj
+            }
+            else if(country!="" && state==""){
+                const jsonObj = JSON.stringify({state: {
+                    error: "state field should not be empty",
+                }});
+                para.textContent = "Result: "+jsonObj
+            }
+            else if(email==""){
+                const jsonObj = JSON.stringify({email: {
+                    error: "email field should not be empty.",
+                }});
+                para.textContent = "Result: "+jsonObj
+            }
+            else if(!emailValidation(email)){
+                const jsonObj = JSON.stringify({email: {
+                    error: "email format is invalid.",
+                }});
+                para.textContent = "Result: "+jsonObj
+            }
+            
+            else{
+                const jsonObj = JSON.stringify({Success: "All fields are valid."});
+                para.innerHTML = "Result: " + jsonObj
+            }
+
+        })
+
+    </script>
+    
+    
+</body>
+</html>

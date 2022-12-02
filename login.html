@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="background-color: rgb(224, 224, 224); font-family: sans-serif;">
+        <p style="margin-left: 10px;">Can you please provide your personal details?</p>
+        <form action="" method="post" style="margin-left: 10px;">
+            <label for="" ><b>Name</b></label>
+            <br>
+            <input id="name" type="text" style="width: 250px; height: 30px;border: 0px;margin-top: 2px;" required>
+
+            <br><br>
+            <label for="" ><b>Date of birth</b></label>
+            <input type="date" id="date" style="width: 250px; height: 30px;border: 0px;margin-top: 2px;" value="">
+
+            <br><br>
+            <label for="" ><b>Contact number</b></label>
+            <input id="phone" type="tel" style="width: 250px; height: 30px;border: 0px;margin-top: 2px;" maxlength="10">
+
+            <br><br>
+            <label for="" ><b>Country</b></label>
+            <select onclick="onCountrySelect()" name="" id="country" style="margin-top: 2px;width: 258px; height: 35px;border: 0px;"></select>
+
+            <br><br>
+            <label for="" ><b>State</b></label>
+            <select onclick="onStateSelect()" name="" id="state" style="margin-top: 2px;width: 258px; height: 35px; border: 0px;" disabled></select>
+
+            <br><br>
+            <label for="" ><b>Your email</b></label>
+            <input id="email" type="email" style="width: 250px; height: 30px;border: 0px;margin-top: 2px;">
+
+            <br><br>
+            <input onclick = "sentDataToParent()" type="button" value="Submit" style="background-color: forestgreen; padding-left: 12px; padding-right: 12px; padding-bottom: 8px;  padding-top: 8px;color:white;
+            border: 0px; border-radius: 4px; font-weight: bold;">
+            <br><br>
+        </form>
+    </div>
+
+    <script>
+        var selectedCountry = ""
+
+        var countrySelect = document.getElementById('country')
+        var stateSelect = document.getElementById('state')
+
+        async function onStateSelect(){
+            const res = await fetch("https://raw.githubusercontent.com/stefanbinder/countries-states/master/countries.json");
+            var data = await res.json()
+
+            for(var i=0;i<data.length;i++){
+                if(selectedCountry!="" && data[i].name==selectedCountry){
+                    for(var j=0;j<data[i].states.length;j++){
+                        var option = document.createElement('option');
+                        option.text = data[i].states[j].name;
+                        stateSelect.add(option, j);
+                    }
+                    break;
+                }
+            }
+
+            selectedCountry = ""
+        }
+        
+        function sentDataToParent(){
+            var userName = document.getElementById('name').value;
+            var userEmail = document.getElementById('email').value;
+            var phone_no = document.getElementById('phone').value;
+            var userCountry = countrySelect.value
+            var userState = stateSelect.value
+
+            const msg = JSON.stringify({
+                name: userName,
+                email: userEmail,
+                phone: phone_no,
+                country: userCountry,
+                state: userState,
+        });
+            window.parent.postMessage(msg, '*');
+        }
+
+        async function onCountrySelect(){
+            stateSelect.disabled = ""
+            while(stateSelect.length!=0){
+                await onDeleteState()
+            }
+            
+            if(countrySelect.length==0){
+                const res = await fetch("https://raw.githubusercontent.com/stefanbinder/countries-states/master/countries.json");
+                var data = await res.json()
+                
+                for(var i=0;i<data.length;i++){
+                    var option = document.createElement('option');
+                    option.text = data[i].name;
+                    countrySelect.add(option, i);
+                }
+            }
+            selectedCountry = countrySelect.value;
+        }
+        
+        function onDeleteState(){
+            for(var k=0;k<stateSelect.length;k++){
+                stateSelect.remove(0)
+            }   
+        }
+
+    </script>
+</body>
+</html>
