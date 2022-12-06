@@ -1,0 +1,27 @@
+.container{
+    background-color: rgb(224, 224, 224); 
+    font-family: sans-serif;
+}
+.basic_input{
+    width: 250px; 
+    height: 30px;
+    border: 0px;
+    margin-top: 2px;
+}
+.select_input{
+    margin-top: 2px;
+    width: 258px; 
+    height: 35px; 
+    border: 0px;
+}
+#btn_submit{
+    background-color: forestgreen; 
+    padding-left: 12px; 
+    padding-right: 12px; 
+    padding-bottom: 8px;  
+    padding-top: 8px;
+    color:white;  
+    border: 0px; 
+    border-radius: 4px; 
+    font-weight: bold;
+}

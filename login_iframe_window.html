@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login_iframe_window.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <p style="margin-left: 10px;">Can you please provide your personal details?</p>
+
+        <form action="" method="post" style="margin-left: 10px;">
+
+            <label for="" ><b>Name</b></label>
+            <br>
+            <input class="basic_input" id="name" type="text">
+
+            <br><br>
+            <label for="" ><b>Date of birth</b></label>
+            <input class="basic_input" type="date" id="date" value="">
+
+            <br><br>
+            <label for="" ><b>Contact number</b></label>
+            <input class="basic_input" id="phone" type="tel" maxlength="10">
+
+            <br><br>
+            <label for="" ><b>Country</b></label>
+            <select onclick="onCountrySelect()" name="" id="country" 
+            class="select_input"></select>
+
+            <br><br>
+            <label for="" ><b>State</b></label>
+            <select onclick="onStateSelect()" name="" id="state" 
+            class="select_input" disabled></select>
+
+            <br><br>
+            <label for="" ><b>Your email</b></label>
+            <input class="basic_input" id="email" type="email">
+
+            <br><br>
+            <input id="btn_submit" onclick = "sentDataToParent()" type="button" value="Submit">
+            
+            <br><br>
+        </form>
+    </div>
+
+    <script src="login_iframe_window.js">
+        
+    </script>
+</body>
+</html>
